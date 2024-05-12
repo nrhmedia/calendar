@@ -52,7 +52,13 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.40.0"
+    "@finsweet/ts-utils": "^0.40.0",
+    "@fullcalendar/core": "^6.1.11",
+    "@fullcalendar/daygrid": "^6.1.11",
+    "@fullcalendar/list": "^6.1.11",
+    "@fullcalendar/rrule": "^6.1.11",
+    "@fullcalendar/timegrid": "^6.1.11",
+    "rrule": "^2.8.1"
   },
   "engines": {
     "pnpm": ">=8"
