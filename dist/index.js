@@ -1,7 +1,7 @@
 "use strict";
 (() => {
   // bin/live-reload.js
- // new EventSource(`${"http://localhost:3000"}/esbuild`).addEventListener("change", () => location.reload());
+  new EventSource(`${"http://localhost:3000"}/esbuild`).addEventListener("change", () => location.reload());
 
   // node_modules/.pnpm/preact@10.12.1/node_modules/preact/dist/preact.module.js
   var n;
@@ -14516,9 +14516,16 @@
   window.Webflow ||= [];
   window.Webflow.push(() => {
     const calendarElement = document.querySelector('[data-element="calendar"]');
-    if (!calendarElement)
+    if (!calendarElement) {
+      console.error("Calendar element not found.");
       return;
+    }
     const events = getEvents();
+    if (!events.length) {
+      console.error("No events found.");
+      return;
+    }
+    console.log("Events:", events);
     const calendar = new Calendar(calendarElement, {
       plugins: [index, index4, index2, index3],
       initialView: "dayGridMonth",
@@ -14527,25 +14534,45 @@
         center: "title",
         right: "dayGridMonth,timeGridWeek,listWeek"
       },
-      events
+      events,
+      eventClick: (info) => {
+        console.log("Event clicked:", info.event);
+        if (info.event.extendedProps.url) {
+          window.location.href = info.event.extendedProps.url;
+        } else {
+          console.error("Event URL is missing.");
+        }
+      }
     });
     calendar.render();
   });
   var getEvents = () => {
     const scripts = document.querySelectorAll('[data-element="event-data"]');
+    if (!scripts.length) {
+      console.error("No event data scripts found.");
+      return [];
+    }
     const events = [...scripts].map((script) => {
       const decodedContent = decodeHtmlEntities(script.textContent || "");
-      const eventJson = JSON.parse(decodedContent);
+      let eventJson;
+      try {
+        eventJson = JSON.parse(decodedContent);
+      } catch (error) {
+        console.error("Error parsing event data:", error, script);
+        return null;
+      }
       const start = new Date(eventJson.start);
       const until = eventJson.recurringUntil ? new Date(eventJson.recurringUntil) : void 0;
       const calendarEvent = {
         title: eventJson.title,
         start,
         end: eventJson.end ? new Date(eventJson.end) : void 0,
-        rrule: RECURRING_FIELD_VALUE_TO_RRULE[eventJson.recurring](start.toISOString(), until)
+        rrule: RECURRING_FIELD_VALUE_TO_RRULE[eventJson.recurring](start.toISOString(), until),
+        url: eventJson.url
+        // Include the url field
       };
       return calendarEvent;
-    });
+    }).filter((event) => event !== null);
     return events;
   };
 })();
