@@ -21,6 +21,7 @@ export type EventJson = {
   end: string;
   recurring: RecurringOption;
   recurringUntil: string;
+  url: string;
 };
 
 type PartialRRule = {
