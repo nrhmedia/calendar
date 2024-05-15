@@ -29,6 +29,11 @@ window.Webflow.push(() => {
       right: 'dayGridMonth,timeGridWeek,listWeek',
     },
     events,
+    eventClick: (info) => {
+      if (info.event.extendedProps.url) {
+        window.location.href = info.event.extendedProps.url;
+      }
+    },
   });
 
   calendar.render();
@@ -47,6 +52,7 @@ const getEvents = (): CalendarEvent[] => {
       start,
       end: eventJson.end ? new Date(eventJson.end) : undefined,
       rrule: RECURRING_FIELD_VALUE_TO_RRULE[eventJson.recurring](start.toISOString(), until),
+      url: eventJson.url, // Include the url field
     };
 
     return calendarEvent;
