@@ -14539,7 +14539,8 @@
         title: eventJson.title,
         start,
         end: eventJson.end ? new Date(eventJson.end) : void 0,
-        rrule: RECURRING_FIELD_VALUE_TO_RRULE[eventJson.recurring](start.toISOString(), until)
+        rrule: RECURRING_FIELD_VALUE_TO_RRULE[eventJson.recurring](start.toISOString(), until),
+        url: eventJson.url
       };
       return calendarEvent;
     });

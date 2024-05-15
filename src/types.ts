@@ -37,6 +37,7 @@ export type CalendarEvent = {
   start: Date;
   end?: Date;
   rrule?: PartialRRule;
+  url?: string;
 };
 
 export const RECURRING_FIELD_VALUE_TO_RRULE: Record<

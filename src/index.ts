@@ -47,6 +47,7 @@ const getEvents = (): CalendarEvent[] => {
       start,
       end: eventJson.end ? new Date(eventJson.end) : undefined,
       rrule: RECURRING_FIELD_VALUE_TO_RRULE[eventJson.recurring](start.toISOString(), until),
+      url: eventJson.url,
     };
 
     return calendarEvent;
