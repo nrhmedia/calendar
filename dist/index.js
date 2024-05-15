@@ -1,8 +1,5 @@
 "use strict";
 (() => {
-  // bin/live-reload.js
-  new EventSource(`${"http://localhost:3000"}/esbuild`).addEventListener("change", () => location.reload());
-
   // node_modules/.pnpm/preact@10.12.1/node_modules/preact/dist/preact.module.js
   var n;
   var l;
