@@ -19,6 +19,7 @@ window.Webflow.push(() => {
   if (!calendarElement) return;
 
   const events = getEvents();
+  console.log('Events:', events); // Log the events to check if URL is included
 
   const calendar = new Calendar(calendarElement, {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, rrulePlugin],
@@ -30,8 +31,11 @@ window.Webflow.push(() => {
     },
     events,
     eventClick: (info) => {
+      console.log('Event clicked:', info.event); // Log the event object on click
       if (info.event.extendedProps.url) {
         window.location.href = info.event.extendedProps.url;
+      } else {
+        console.error('Event URL is missing.');
       }
     },
   });
